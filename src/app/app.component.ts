@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'app works!';
+  someData : any  = [
+	  {name : "Ashish Santikari" , technology : "OO JavaScript"},
+	  {name : "Ashish Santikari" , technology : "Angular 1"},
+	  {name : "Ashish Santikari" , technology : "Angular 2"} 
+  ];
 }
