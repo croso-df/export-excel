@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, HostListener } from '@angular/core';
-import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import * as _ from 'lodash';
 
@@ -66,12 +65,12 @@ export class ExportToExcelComponent {
         var cell = { v: data[R][C], t: 's' , s : {}};
         
         if (R === 0){
-          cell.s = {"font" : {"bold" : true, "sz" : 13, "alignment" : { "horizontal" : "center", "vertical" : "center"}}};          
+          cell.s = {"font" : {"bold" : true, "sz" : 13, "color": { "rgb": "FFFFAA00" }, "alignment" : { "horizontal" : "center", "vertical" : "center"}}};          
         }
           
 
         if (cell.v == null) continue;
-        var cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
+        var cell_ref = window['XLSX'].utils.encode_cell({ c: C, r: R });
         if (typeof cell.v === 'number')
           cell.t = 'n';
         else if (typeof cell.v === 'boolean')
@@ -85,7 +84,7 @@ export class ExportToExcelComponent {
     console.log("Worksheet goes here", ws);
 
     if (range.s.c < 10000000)
-      ws['!ref'] = XLSX.utils.encode_range(endCell, startCell);
+      ws['!ref'] = window['XLSX'].utils.encode_range(endCell, startCell);
 
     return ws;
   }
@@ -102,7 +101,7 @@ export class ExportToExcelComponent {
     this.ws = this.sheet_from_array_of_arrays(this.transformData(this.data));
     this.workbook.SheetNames.push(this.sheetName);
     this.workbook.Sheets[this.sheetName] = this.ws;
-    this.wbout = XLSX.write(this.workbook, { bookType: 'xlsx', type: 'binary' });    
+    this.wbout = window['XLSX'].write(this.workbook, { bookType: 'xlsx', type: 'binary', cellStyles: true });    
     return this.wbout;
   }
 
